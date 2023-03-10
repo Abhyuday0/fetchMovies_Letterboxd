@@ -1,0 +1,33 @@
+from bs4 import BeautifulSoup
+import time
+import requests
+import json
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+
+
+url = "https://letterboxd.com/films/popular/decade/2010s/page/1/"
+path = r"C:\Users\abhyu\AppData\Local\Google\Chrome SxS\Application\chrome.exe"
+s = Service(url)
+
+browser = webdriver.Chrome(service = s, executable_path= path)
+browser.get(url)
+
+
+# options = Options()
+# options.add_argument('--headless')
+# options.add_argument('--disable-gpu')
+# driver = webdriver.Chrome(chrome_options=options)
+# driver.get(url)
+# time.sleep(3)
+# page = driver.page_source
+# driver.quit()
+
+response = requests.get(url)
+# soup = BeautifulSoup(response.content, "html.parser")
+soup = BeautifulSoup(browser.page_source, "html.parser")
+
+data = soup.find_all('div', {"class" : "react-component poster film-poster film-poster-426406 linked-film-poster"})
+
+print(len(data))
+soup.prettify
